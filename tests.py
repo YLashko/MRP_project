@@ -1,5 +1,6 @@
 from GHP import GHP
 from MRP import MRP
+from main import MRPTree, Save
 
 
 def test_zad1():
@@ -37,13 +38,56 @@ def test_zad1():
     stol.add_child_MRP(nogi, 4)
     blaty.add_child_MRP(plyta, 1)
     stol.setup_children()
+    blaty.setup_tables()
+    nogi.setup_tables()
     blaty.compute_timestamps()
     nogi.compute_timestamps()
     blaty.setup_children()
+    plyta.setup_tables()
     plyta.compute_timestamps()
     print_mrp(blaty)
     print_mrp(nogi)
     print_mrp(plyta)
+
+
+def test_tree_zad1():
+    tree = MRPTree()
+    tree.set_ghp(
+        GHP(
+            name="Stół",
+            prod_time=1,
+            in_stock=2,
+            demand_list=[0, 0, 0, 0, 20, 0, 40, 0, 10, 0],
+            production_list=[0, 0, 0, 0, 28, 0, 30, 0, 0, 0],
+            children=[
+                MRP(
+                    name="Blaty",
+                    prod_time=3,
+                    level=1,
+                    batch_size=40,
+                    in_stock=22,
+                    children=[
+                        MRP(
+                            name="Plyta",
+                            prod_time=1,
+                            level=2,
+                            batch_size=50,
+                            in_stock=10
+                        ), 1
+                    ]
+                ), 1,
+                MRP(
+                    name="Nogi",
+                    prod_time=2,
+                    level=1,
+                    batch_size=120,
+                    in_stock=40
+                ), 4
+            ]
+        )
+    )
+    tree.calculate_all()
+    Save.to_csv(tree, "test.csv")
 
 
 def print_mrp(mrp):
@@ -55,4 +99,4 @@ def print_mrp(mrp):
     print(mrp.orders_intake_table)
 
 
-test_zad1()
+test_tree_zad1()

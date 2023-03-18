@@ -3,7 +3,8 @@ from MRP import MRP
 
 class GHP:
     def __init__(self, name, prod_time: int = 1, level: int = 0, in_stock: int = 0,
-                 timestamps: int = 1):
+                 timestamps: int = 1, demand_list: list[int] = None, production_list: list[int] = None,
+                 children: list = None):
         self.name = name
         self.prod_time = prod_time
         self.level = level
@@ -15,6 +16,12 @@ class GHP:
         self.production_table = []
         self.demand_table = []
         self.in_stock_table = []
+        if demand_list and production_list:
+            self.set_demand_table(demand_list)
+            self.set_production_table(production_list)
+        if children:
+            for i in range(0, len(children), 2):
+                self.add_child_MRP(children[i], children[i + 1])
 
     def setup_tables(self) -> None:
         self.net_demand_table = [0] * self.timestamps
@@ -34,7 +41,6 @@ class GHP:
                 lambda x: x * self.children_quan_multipliers[n],
                 self.order_table
             )))
-            child.setup_tables()
 
     def add_demand(self, pos: int, n: int) -> None:
         try:
@@ -60,6 +66,9 @@ class GHP:
         for ts in range(1, self.timestamps):
             self.in_stock_table[ts] = self.in_stock_table[ts - 1] + self.production_table[ts] - \
                                                                     self.demand_table[ts]
+
+    def compute_timestamps(self):
+        self.compute_in_stock()
 
     @property
     def order_table(self):

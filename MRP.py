@@ -1,6 +1,6 @@
 class MRP:
     def __init__(self, name, prod_time: int = 1, level: int = 0, batch_size: int = 0, in_stock: int = 0,
-                 timestamps: int = 1, backprop_ordering: bool = True):
+                 timestamps: int = 1, backprop_ordering: bool = True, children: list = None):
         self.name = name
         self.prod_time = prod_time
         self.level = level
@@ -16,6 +16,9 @@ class MRP:
         self.net_demand_table = []
         self.intake_table = []
         self.in_stock_table = []
+        if children:
+            for i in range(0, len(children), 2):
+                self.add_child_MRP(children[i], children[i + 1])
 
     def setup_tables(self) -> None:
         self.in_stock_table = [0] * self.timestamps
@@ -27,7 +30,7 @@ class MRP:
 
     def compute_timestamps(self) -> None:
         for ts in range(self.timestamps):
-            # compute current in stock amount
+            # compute current in_stock amount
             self.net_demand_table[ts] = min(self.in_stock_table[ts] - self.demand_table[ts] +
                                             self.intake_table[ts], 0)
             self.in_stock_table[ts] -= self.demand_table[ts]
@@ -72,7 +75,6 @@ class MRP:
                 lambda x: x * self.children_quan_multipliers[n],
                 self.planned_orders_table
             )))
-            child.setup_tables()
 
     def get_children(self):
         return self.children
