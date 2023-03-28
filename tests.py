@@ -125,6 +125,7 @@ def test_proj():
     )
     tree.calculate_all()
     Save.to_csv(tree, "test.csv")
+    Save.to_html_table(tree, "test.html")
 
 
 def print_mrp(mrp):

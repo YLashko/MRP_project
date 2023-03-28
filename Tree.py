@@ -1,6 +1,7 @@
 from GHP import GHP
 from MRP import MRP
 import csv
+from html_layout import layout
 
 
 class MRPTree:
@@ -80,3 +81,21 @@ class Save:
                 csv_list += Convert.mrp_to_rows(element)
         with open(filename, "w", encoding="utf-8", newline='') as f:
             csv.writer(f).writerows(csv_list)
+
+    @staticmethod
+    def to_html_table(tree: MRPTree, filename):
+        table = "<table>"
+        element_rows = []
+        for element in tree.get_tree():
+            if isinstance(element, GHP):
+                element_rows = Convert.ghp_to_rows(element)
+            elif isinstance(element, MRP):
+                element_rows = Convert.mrp_to_rows(element)
+            for row in element_rows:
+                table += "<tr>"
+                for cell in row:
+                    table += f"<td>{cell}</td>"
+                table += "</tr>"
+        table += "</table>"
+        with open(filename, "w", encoding='utf-8') as file:
+            file.write(layout(table))
