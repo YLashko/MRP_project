@@ -1,6 +1,6 @@
 from GHP import GHP
 from MRP import MRP
-from main import MRPTree, Save
+from Tree import MRPTree, Save
 
 
 def test_zad1():
@@ -50,39 +50,76 @@ def test_zad1():
     print_mrp(plyta)
 
 
-def test_tree_zad1():
+def test_proj():
     tree = MRPTree()
     tree.set_ghp(
         GHP(
-            name="Stół",
+            name="Napój",
             prod_time=1,
-            in_stock=2,
-            demand_list=[0, 0, 0, 0, 20, 0, 40, 0, 10, 0],
-            production_list=[0, 0, 0, 0, 28, 0, 30, 0, 0, 0],
+            in_stock=250,
+            demand_list=[0, 0, 0, 0, 500, 0, 0, 0, 1500, 0],
+            production_list=[0, 0, 0, 0, 750, 0, 0, 1500, 0, 0],
             children=[
                 MRP(
-                    name="Blaty",
-                    prod_time=3,
+                    name="Butelka",
+                    prod_time=2,
                     level=1,
-                    batch_size=40,
-                    in_stock=22,
+                    batch_size=500,
+                    in_stock=150,
                     children=[
                         MRP(
-                            name="Plyta",
+                            name="Plastik (kg)",
                             prod_time=1,
                             level=2,
-                            batch_size=50,
-                            in_stock=10
-                        ), 1
+                            batch_size=100,
+                            in_stock=50
+                        ), 0.07
                     ]
                 ), 1,
                 MRP(
-                    name="Nogi",
-                    prod_time=2,
+                    name="Nakrętka",
+                    prod_time=1,
                     level=1,
-                    batch_size=120,
-                    in_stock=40
-                ), 4
+                    batch_size=500,
+                    in_stock=50
+                ), 1,
+                MRP(
+                    name="Ciecz (l)",
+                    prod_time=1,
+                    level=1,
+                    batch_size=1000,
+                    in_stock=0,
+                    children=[
+                        MRP(
+                            name="Cukier (kg)",
+                            prod_time=1,
+                            level=2,
+                            batch_size=150,
+                            in_stock=0
+                        ), 0.1,
+                        MRP(
+                            name="Gaz (m3)",
+                            prod_time=1,
+                            level=2,
+                            batch_size=300,
+                            in_stock=1,
+                        ), 0.25,
+                        MRP(
+                            name="Woda (l)",
+                            prod_time=1,
+                            level=2,
+                            batch_size=1500,
+                            in_stock=600
+                        ), 1,
+                        MRP(
+                            name="Aromaty (kg)",
+                            prod_time=2,
+                            level=2,
+                            batch_size=20,
+                            in_stock=6
+                        ), 0.02
+                    ]
+                ), 1
             ]
         )
     )
@@ -98,5 +135,3 @@ def print_mrp(mrp):
     print(mrp.planned_orders_table)
     print(mrp.orders_intake_table)
 
-
-test_tree_zad1()
