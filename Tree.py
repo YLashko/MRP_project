@@ -64,7 +64,7 @@ class Convert:
             ["Całkowite zapotrzebowanie"] + mrp.demand_table,
             ["Planowane przyjęcia"] + mrp.intake_table,
             ["Przewidywane na stanie"] + mrp.in_stock_table,
-            ["Zapotrzebowanie netto"] + mrp.net_demand_table,
+            ["Zapotrzebowanie netto"] + [abs(el) for el in mrp.net_demand_table],
             ["Planowane zamówienia"] + mrp.planned_orders_table,
             ["Planowane przyjęcie zamówień"] + mrp.orders_intake_table
         ]
