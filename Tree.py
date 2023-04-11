@@ -2,7 +2,6 @@ from GHP import GHP
 from MRP import MRP
 import csv
 from html_layout import layout
-import json
 
 
 class MRPTree:
@@ -70,26 +69,30 @@ class Convert:
             ["Planowane przyjęcie zamówień"] + mrp.orders_intake_table
         ]
 
-    def json_to_tree(json_data: str) -> MRPTree:
+    def json_to_tree(json_data: dict) -> MRPTree:
+        print(type(json_data))
         def json_to_tree_recursive(element: MRP | GHP, json_data: list):
             for json_element in json_data:
-                element.add_child_MRP(MRP(
-                    name=json_data["name"],
-                    prod_time=json_data["prod_time"],
-                    batch_size=json_data["batch_size"],
-                    in_stock=json_data["in_stock"],
-                    level=json_data["level"]
+                element.add_child_MRP(new_element := MRP(
+                    name=json_element["name"],
+                    prod_time=json_element["prod_time"],
+                    batch_size=json_element["batch_size"],
+                    in_stock=json_element["in_stock"],
+                    level=json_element["level"]
                 ), json_element["prod_multiplier"])
-                json_to_tree_recursive(element, json_data["children"])
+                json_to_tree_recursive(new_element, json_element["children"])
         ghp = GHP(
             name=json_data["name"],
             prod_time=json_data["prod_time"],
             level=json_data["level"],
+            in_stock=json_data["in_stock"],
             demand_list=json_data["demand_table"],
             production_list=json_data["prod_table"]
         )
         json_to_tree_recursive(ghp, json_data["children"])
-        return ghp
+        tree = MRPTree()
+        tree.set_ghp(ghp)
+        return tree
 
 
 class Save:

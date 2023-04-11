@@ -1,6 +1,7 @@
 from GHP import GHP
 from MRP import MRP
-from Tree import MRPTree, Save
+from Tree import MRPTree, Save, Convert
+import json
 
 
 def test_zad1():
@@ -73,7 +74,7 @@ def test_proj():
                             level=2,
                             batch_size=100,
                             in_stock=50
-                        ), 0.07
+                        ), 0.05
                     ]
                 ), 1,
                 MRP(
@@ -126,6 +127,15 @@ def test_proj():
     tree.calculate_all()
     Save.to_csv(tree, "test.csv")
     Save.to_html_table(tree, "test.html")
+
+def test_json():
+    with open("test.json", "r", encoding="utf-8") as json_data:
+        data = json.loads(json_data.read())
+    tree = Convert.json_to_tree(data)
+    tree.calculate_all()
+    Save.to_csv(tree, "test_json.csv")
+    Save.to_html_table(tree, "test_json.html")
+    
 
 
 def print_mrp(mrp):

@@ -1,0 +1,84 @@
+{
+    "name": "Napój",
+    "prod_time": 1,
+    "level": 0,
+    "demand_table": [0, 0, 0, 0, 500, 0, 0, 0, 1500, 0],
+    "prod_table": [0, 0, 0, 0, 750, 0, 0, 1500, 0, 0],
+    "in_stock": 250,
+    "children": [
+        {
+            "name": "Butelka",
+            "prod_time": 2,
+            "level": 1,
+            "batch_size": 500,
+            "in_stock": 150,
+            "prod_multiplier": 1,
+            "children": [
+                {
+                    "name": "Plastik (kg)",
+                    "prod_time": 1,
+                    "level": 2,
+                    "batch_size": 100,
+                    "in_stock": 50,
+                    "prod_multiplier": 0.05,
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "Nakrętka",
+            "prod_time": 1,
+            "level": 1,
+            "batch_size": 500,
+            "in_stock": 50,
+            "prod_multiplier": 1,
+            "children": []
+        },
+        {
+            "name": "Ciecz (l)",
+            "prod_time": 1,
+            "level": 1,
+            "batch_size": 1000,
+            "in_stock": 0,
+            "prod_multiplier": 1,
+            "children": [
+                {
+                    "name": "Cukier (kg)",
+                    "prod_time": 1,
+                    "level": 2,
+                    "batch_size": 150,
+                    "in_stock": 0,
+                    "prod_multiplier": 0.1,
+                    "children": []
+                },
+                {
+                    "name": "Gaz (m3)",
+                    "prod_time": 1,
+                    "level": 2,
+                    "batch_size": 300,
+                    "in_stock": 10,
+                    "prod_multiplier": 0.25,
+                    "children": []
+                },
+                {
+                    "name": "Woda (l)",
+                    "prod_time": 1,
+                    "level": 2,
+                    "batch_size": 1500,
+                    "in_stock": 600,
+                    "prod_multiplier": 1,
+                    "children": []
+                },
+                {
+                    "name": "Aromaty (kg)",
+                    "prod_time": 2,
+                    "level": 2,
+                    "batch_size": 20,
+                    "in_stock": 6,
+                    "prod_multiplier": 0.02,
+                    "children": []
+                }
+            ]
+        }
+    ]
+}
